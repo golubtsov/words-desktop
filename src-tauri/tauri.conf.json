@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "words-desktop",
+  "productName": "wordsp",
   "version": "0.1.0",
   "identifier": "com.words-desktop.app",
   "build": {
@@ -12,9 +12,9 @@
   "app": {
     "windows": [
       {
-        "title": "words-desktop",
+        "title": "Words",
         "width": 800,
-        "height": 600
+        "height": 450
       }
     ],
     "security": {
@@ -24,12 +24,6 @@
   "bundle": {
     "active": true,
     "targets": "all",
-    "icon": [
-      "icons/32x32.png",
-      "icons/128x128.png",
-      "icons/128x128@2x.png",
-      "icons/icon.icns",
-      "icons/icon.ico"
-    ]
+    "icon": ["icons/icon128.png"]
   }
 }

@@ -3,12 +3,18 @@
     import { readTextFile, BaseDirectory } from "@tauri-apps/plugin-fs";
     import "../output.css";
 
-    const words: string[][] = [];
-    const usedWords: string[][] = [];
+    let words: { word: string; pronunciation: string; translation: string }[] =
+        [];
+    const usedWords: {
+        word: string;
+        pronunciation: string;
+        translation: string;
+    }[] = [];
 
     let file: string | null;
     let wordIndex: number | null = null;
-    let choise: string[] = getRandomWords();
+    let choise: { word: string; pronunciation: string; translation: string } =
+        getRandomWords();
     let isStarting: boolean = false;
     let result: string = "";
     let showBlockWithResult: boolean = false;
@@ -46,7 +52,7 @@
             wordsLength = words.length;
             usedWordsLength = usedWords.length;
         } else if (wordIndex === 0) {
-            alert("Слова закончились");
+            alert("Words finished.");
         } else {
             alert("You have problems in the code.");
         }
@@ -62,7 +68,9 @@
                 baseDir: BaseDirectory.AppConfig,
             });
 
-            console.log(text);
+            words = JSON.parse(text);
+
+            start();
         }
     }
 </script>
@@ -70,12 +78,12 @@
 <section
     class="flex flex-col gap-y-5 justify-center items-center w-full dark:bg-gray-800 h-screen"
 >
-    <section class="-mt-52">
+    <section class="">
         <section
             class="flex flex-col min-w-0 text-white sm:min-w-[550px] gap-y-3 mb-4"
         >
-            <div>Всего: {wordsLength}</div>
-            <div>Пройдено: {usedWordsLength}</div>
+            <div>All: {wordsLength}</div>
+            <div>Passed: {usedWordsLength}</div>
             <div>
                 <button
                     on:click={async () => {
@@ -89,21 +97,21 @@
                 >
             </div>
         </section>
-        <section
-            class="flex border-2 shadow-2xl rounded-2xl justify-center items-center p-5 min-h-[200px] min-w-0 sm:min-w-[550px] mx-2 bg-white dark:bg-gray-800"
-        >
-            {#if words.length !== 0}
+        {#if words.length !== 0}
+            <section
+                class="flex border-2 shadow-2xl rounded-2xl justify-center items-center p-5 min-h-[200px] min-w-0 sm:min-w-[550px] mx-2 bg-white dark:bg-gray-800"
+            >
                 <div class="block m-auto w-full">
                     <div
                         class="block w-full text-center text-2xl text-black dark:text-white"
                     >
-                        <p>{choise[2]}</p>
+                        <p>{choise.translation}</p>
                     </div>
 
                     <div
                         class="block w-full text-center text-2xl text-black dark:text-white"
                     >
-                        <p>{choise[1]}</p>
+                        <p>{choise.pronunciation}</p>
                     </div>
 
                     <div class="mt-4">
@@ -120,16 +128,16 @@
                     {#if showBlockWithResult}
                         <div class="mt-4">
                             <div>
-                                <p class="text-green-500">{choise[0]}</p>
+                                <p class="text-green-500">{choise.word}</p>
                             </div>
                         </div>
 
-                        {#if result !== choise[0]}
+                        {#if result !== choise.word}
                             <div class="mt-4">
                                 <div>
                                     <p class="text-red-500">
                                         {#if result === ""}
-                                            {choise[0]}
+                                            {choise.word}
                                         {:else}
                                             {result}
                                         {/if}
@@ -153,7 +161,7 @@
                         </button>
                     </div>
                 </div>
-            {/if}
-        </section>
+            </section>
+        {/if}
     </section>
 </section>
