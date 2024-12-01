@@ -86,6 +86,7 @@
             <div>Passed: {usedWordsLength}</div>
             <div>
                 <button
+                    class="border-2 rounded-2xl px-4 py-2"
                     on:click={async () => {
                         file = await open({
                             multiple: false,
@@ -125,27 +126,39 @@
                         </div>
                     </div>
 
-                    {#if showBlockWithResult}
+                    <div class="min-h-[70px]">
                         <div class="mt-4">
                             <div>
-                                <p class="text-green-500">{choise.word}</p>
+                                <p>
+                                    {#if showBlockWithResult}
+                                        <span class="text-green-500"
+                                            >{choise.word}</span
+                                        >
+                                    {:else}
+                                        <span class="opacity-0">Word</span>
+                                    {/if}
+                                </p>
                             </div>
                         </div>
 
-                        {#if result !== choise.word}
-                            <div class="mt-4">
-                                <div>
-                                    <p class="text-red-500">
-                                        {#if result === ""}
-                                            {choise.word}
-                                        {:else}
-                                            {result}
-                                        {/if}
-                                    </p>
-                                </div>
+                        <div class="mt-4">
+                            <div>
+                                <p>
+                                    {#if showBlockWithResult && result !== choise.word}
+                                        <span class="text-red-500">
+                                            {#if result === ""}
+                                                {choise.word}
+                                            {:else}
+                                                {result}
+                                            {/if}</span
+                                        >
+                                    {:else}
+                                        <span class="opacity-0">Result</span>
+                                    {/if}
+                                </p>
                             </div>
-                        {/if}
-                    {/if}
+                        </div>
+                    </div>
 
                     <div class="block w-full mt-4">
                         <button
